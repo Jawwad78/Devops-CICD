@@ -3,13 +3,18 @@ name: CI/CD assignment
 on: [push]
 
 jobs:
-  build:
+  docker:
     runs-on: ubuntu-latest
     steps: 
-    - name: just test code inital
-      uses: actions/checkout@v2
-    - name: im testing this workflow
-      run: it works
+    - name: login to docker hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push docker image
+      uses: docker/build-push-actions@v6
+      with:
+        push: true
 
 
 
